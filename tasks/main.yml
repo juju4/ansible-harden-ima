@@ -1,0 +1,5 @@
+---
+
+- import_tasks: linux-ima.yml
+- import_tasks: linux-evm.yml
+# - import_tasks: linux-fsverity.yml

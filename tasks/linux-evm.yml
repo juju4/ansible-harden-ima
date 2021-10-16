@@ -1,0 +1,45 @@
+---
+# https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/enhancing-security-with-the-kernel-integrity-subsystem_managing-monitoring-and-updating-the-kernel#enabling-integrity-measurement-architecture-and-extended-verification-module_enhancing-security-with-the-kernel-integrity-subsystem
+
+- name: Ensure EVM packages are present
+  package:
+    name:
+      - ima-evm-utils
+      - attr
+      - keyutils
+    state: present
+
+- name: Create /etc/keys
+  file:
+    path: /etc/keys
+    state: directory
+    mode: '0755'
+
+- name:  Create a kernel master key to protect the EVM key
+  shell: keyctl add user kmk "$(dd if=/dev/urandom bs=1 count=32 2> /dev/null)" @u
+  args:
+    creates: /etc/keys/kmk
+
+- name: Export the kmk key into a file
+  shell: keyctl pipe `keyctl search @u user kmk` > /etc/keys/kmk
+  args:
+    creates: /etc/keys/kmk
+
+- name:  Create an encrypted EVM key based on the kmk key
+  command: keyctl add encrypted evm-key "new user:kmk 64" @u
+  args:
+    creates: /etc/keys/evm-key
+
+- name: Export the evm-key user key into a file
+  shell: keyctl pipe `keyctl search @u encrypted evm-key` > /etc/keys/evm-key
+  args:
+    creates: /etc/keys/evm-key
+
+- name: Get EVM state from securityfs
+  ansible.builtin.slurp:
+    src: /sys/kernel/security/evm
+  register: sysevm
+
+- name: Enable EVM
+  shell: echo 1 > /sys/kernel/security/evm
+  when: sysevm['content'] | b64decode | int == 0

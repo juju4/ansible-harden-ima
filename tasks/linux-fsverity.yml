@@ -1,0 +1,7 @@
+---
+# https://www.kernel.org/doc/html/latest/filesystems/fsverity.html
+# "To create verity files on an ext4 filesystem, the filesystem must have been formatted with -O verity or had tune2fs -O verity run on it. “verity” is an RO_COMPAT filesystem feature, so once set, old kernels will only be able to mount the filesystem readonly, and old versions of e2fsck will be unable to check the filesystem. Moreover, currently ext4 only supports mounting a filesystem with the “verity” feature when its block size is equal to PAGE_SIZE (often 4096 bytes)."
+
+# https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/fsverity-utils.git/snapshot/fsverity-utils-1.4.tar.gz
+# https://github.com/tytso/xfstests-bld/blob/master/Documentation/kvm-quickstart.md
+# kvm-xfstests -c ext4,f2fs -g verity

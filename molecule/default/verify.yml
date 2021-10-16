@@ -1,0 +1,30 @@
+---
+
+- name: Verify
+  hosts: ima
+  tasks:
+
+    - name: Check grub default
+      command: grep ima_ /etc/default/grub
+      register: grub
+      changed_when: false
+      failed_when: false
+    - name: Validate ima enabled in grub
+      assert:
+        that: grub.stdout|int > 0
+
+    - name: Get ima_policy statistics
+      stat:
+        path: /etc/initramfs-tools/scripts/init-top/ima_policy
+      register: imap
+    - name: Validate ima_policy in initramfs
+      assert:
+        that: imap.stat.exists and imap.stat.size != 0
+
+# /sys/kernel/security/ima/ascii_runtime_measurements
+# /sys/kernel/security/ima/violations
+
+# EVM
+# "evm: key initialized" in dmesg
+# keyctl show
+# 'user: kmk' 'encrypted: evm-key'

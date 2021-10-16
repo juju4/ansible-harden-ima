@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  role_name: harden_ima
+  author: juju4
+  description: Configure Linux kernel's Integrity Measurement Architecture
+  license: BSD
+  min_ansible_version: 2.12
+  platforms:
+    - name: EL
+      versions:
+        - 8
+        - 7
+    - name: Ubuntu
+      versions:
+        - focal
+        - bionic
+  galaxy_tags:
+    - system
+    - kernel
+    - security
+    - integrity
+dependencies: []
