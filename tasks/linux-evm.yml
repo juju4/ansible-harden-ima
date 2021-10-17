@@ -50,8 +50,8 @@
 
 - name: Enable EVM
   shell: echo 1 > /sys/kernel/security/evm
-  when: sysevm['content'] | b64decode | int == 0
   when: >
+    sysevm['content'] | b64decode | int == 0 and
     not (ansible_virtualization_type is defined and
           (ansible_virtualization_type == "docker" or ansible_virtualization_type == "containerd")
         )
