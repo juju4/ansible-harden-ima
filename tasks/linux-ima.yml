@@ -64,6 +64,7 @@
   package:
     name: initramfs-tools
     state: present
+  when: ansible_os_family == 'Debian'
 
 - name: Add IMA policy to initramfs
   template:
@@ -72,6 +73,7 @@
     mode: '0755'
   notify:
     - update-initramfs
+  when: ansible_os_family == 'Debian'
 
 - name: Ensure / mounted with flag iversion
   ansible.posix.mount:
