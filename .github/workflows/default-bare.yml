@@ -64,16 +64,20 @@ jobs:
           systemd-analyze security || true
           systemctl --failed || true
           systemctl status --all --no-pager || true
+        if: ${{ always() }}
         continue-on-error: true
       - name: After script - grub
         run: |
           cat /etc/default/grub
+        if: ${{ always() }}
         continue-on-error: true
       - name: After script - ima
         run: |
           sudo cat /sys/kernel/security/ima/ascii_runtime_measurements
+        if: ${{ always() }}
         continue-on-error: true
       - name: After script - mount
         run: |
           mount
+        if: ${{ always() }}
         continue-on-error: true
