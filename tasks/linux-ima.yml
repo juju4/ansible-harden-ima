@@ -15,7 +15,11 @@
   when: not securityfs.stat.exists
 
 - name: Check IMA/EVM present in dmesg
-  shell: dmesg | grep -i -E '(evm|ima):' | wc -l
+  shell: |
+    set -o pipefail
+    dmesg | grep -i -E '(evm|ima):' | wc -l
+  args:
+    executable: /bin/bash
   changed_when: false
   failed_when: false
   register: dmesg
