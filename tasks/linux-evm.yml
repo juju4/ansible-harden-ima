@@ -28,7 +28,6 @@
   shell: keyctl pipe `keyctl search @u user kmk` > /etc/keys/kmk
   args:
     creates: /etc/keys/kmk
-  become: yes
 
 - name:  Create an encrypted EVM key based on the kmk key
   command: keyctl add encrypted evm-key "new user:kmk 64" @u
