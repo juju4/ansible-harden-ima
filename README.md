@@ -41,7 +41,8 @@ $ MOLECULE_DISTRO=ubuntu:20.04 molecule test --destroy=never
 
 ## Troubleshooting & Known issues
 
-N/A
+* Some cloud providers may not support IMA in their stack or bug
+Digital Ocean: get Kernel panic at reboot on Ubuntu 20.04 and 21.04. Centos8 image boots normally.
 
 ## License
 
