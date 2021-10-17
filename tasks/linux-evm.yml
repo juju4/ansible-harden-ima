@@ -20,6 +20,10 @@
   args:
     creates: /etc/keys/kmk
 
+- name: Workaround - systemd#5522
+  command: keyctl link @u @s
+  when: harden_ima_systemd_workaround
+
 - name: Export the kmk key into a file
   shell: keyctl pipe `keyctl search @u user kmk` > /etc/keys/kmk
   args:
