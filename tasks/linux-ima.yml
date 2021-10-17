@@ -60,6 +60,11 @@
           (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker")
         ) and hasgrub.stat.exists
 
+- name: Ensure initramfs-tools is present
+  package:
+    name: initramfs-tools
+    state: present
+
 - name: Add IMA policy to initramfs
   template:
     src: ima_policy.j2
