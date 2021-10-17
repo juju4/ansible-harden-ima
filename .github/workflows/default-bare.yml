@@ -73,3 +73,7 @@ jobs:
         run: |
           sudo cat /sys/kernel/security/ima/ascii_runtime_measurements
         continue-on-error: true
+      - name: After script - mount
+        run: |
+          mount
+        continue-on-error: true
