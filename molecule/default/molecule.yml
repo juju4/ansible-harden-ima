@@ -11,6 +11,9 @@ lint: |
 platforms:
   - name: instance
     image: ${MOLECULE_DISTRO:-ubuntu:20.04}
+    # keyctl syscall blocked by default
+    # https://docs.docker.com/engine/security/seccomp/
+    privileged: True
     # env:
     #   http_proxy: ${http_proxy}
     #   https_proxy: ${https_proxy}
