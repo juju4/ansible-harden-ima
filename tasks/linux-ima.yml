@@ -78,3 +78,7 @@
     path: /
     state: remounted
     opts: iversion
+  when: >
+    not (ansible_virtualization_type is defined and
+          (ansible_virtualization_type == "docker" or ansible_virtualization_type == "containerd")
+        )
