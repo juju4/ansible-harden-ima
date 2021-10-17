@@ -77,9 +77,12 @@
 
 - name: Ensure / mounted with flag iversion
   ansible.posix.mount:
-    path: /
-    state: remounted
-    opts: iversion
+    src: "{{ item.src }}"
+    path: "{{ item.path }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.opts }}"
+    state: "{{ item.state }}"
+  loop: "{{ harden_ima_fstab }}"
   when: >
     not (ansible_virtualization_type is defined and
           (ansible_virtualization_type == "docker" or ansible_virtualization_type == "containerd")

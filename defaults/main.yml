@@ -1,3 +1,7 @@
 ---
 
 harden_ima_systemd_workaround: false
+
+# Be mindful if other roles are manipulating fstab else may conflict
+harden_ima_fstab: []
+#  - { src: LABEL=SOME_LABEL, path: /, fstype: ext4, opts: "defaults,iversion", state: mounted }
