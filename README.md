@@ -44,6 +44,15 @@ $ MOLECULE_DISTRO=ubuntu:20.04 molecule test --destroy=never
 * Some cloud providers may not support IMA in their stack or bug
 Digital Ocean: get Kernel panic at reboot on Ubuntu 20.04 and 21.04. Centos8 image boots normally.
 
+## References
+
+* https://sourceforge.net/p/linux-ima/wiki/Home/
+* https://www.redhat.com/en/blog/how-use-linux-kernels-integrity-measurement-architecture
+* https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/enhancing-security-with-the-kernel-integrity-subsystem_managing-monitoring-and-updating-the-kernel#enabling-integrity-measurement-architecture-and-extended-verification-module_enhancing-security-with-the-kernel-integrity-subsystem
+* https://en.opensuse.org/SDB:Ima_evm#ima-grammar
+* https://wiki.strongswan.org/projects/strongswan/wiki/IMA
+* https://svs.informatik.uni-hamburg.de/publications/2020/2020-08-27-Bohling-IMA.pdf
+
 ## License
 
 BSD 2-clause

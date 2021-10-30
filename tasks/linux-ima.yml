@@ -1,9 +1,4 @@
 ---
-# https://www.redhat.com/en/blog/how-use-linux-kernels-integrity-measurement-architecture
-# https://en.opensuse.org/SDB:Ima_evm#ima-grammar
-# https://wiki.strongswan.org/projects/strongswan/wiki/IMA
-# https://svs.informatik.uni-hamburg.de/publications/2020/2020-08-27-Bohling-IMA.pdf
-
 
 - name: Check securityfs is present
   stat:
