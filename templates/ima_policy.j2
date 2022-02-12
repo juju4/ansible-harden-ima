@@ -2,11 +2,11 @@
 {{ ansible_managed | comment }}
 # from https://wiki.strongswan.org/projects/strongswan/wiki/IMA
 
-PREREQ="" 
+PREREQ=""
 
 prereqs()
 {
-    echo "$PREREQ" 
+    echo "$PREREQ"
 }
 
 case $1 in
@@ -18,7 +18,7 @@ prereqs)
 esac
 
 # mount securityfs
-SECURITYFSDIR="/sys/kernel/security" 
+SECURITYFSDIR="/sys/kernel/security"
 mount -t securityfs securityfs ${SECURITYFSDIR} >/dev/null 2>&1
 
 # set IMA policy
