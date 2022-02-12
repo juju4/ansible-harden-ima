@@ -4,8 +4,8 @@ name: AnsibleCI
 on:
   push:
   pull_request:
-  schedule:  # run weekly, every monday 01:00
-    - cron: '0 1 * * 1'
+  schedule:  # run weekly, every Wednesday 01:00
+    - cron: '0 1 * * 3'
 
 jobs:
   build:
