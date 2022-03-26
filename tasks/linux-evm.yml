@@ -1,7 +1,7 @@
 ---
 
 - name: Ensure EVM packages are present
-  package:
+  ansible.builtin.package:
     name:
       - ima-evm-utils
       - attr
@@ -9,32 +9,32 @@
     state: present
 
 - name: Create /etc/keys
-  file:
+  ansible.builtin.file:
     path: /etc/keys
     state: directory
     mode: '0755'
 
 - name:  Create a kernel master key to protect the EVM key
-  shell: keyctl add user kmk "$(dd if=/dev/urandom bs=1 count=32 2> /dev/null)" @u
+  ansible.builtin.shell: keyctl add user kmk "$(dd if=/dev/urandom bs=1 count=32 2> /dev/null)" @u
   args:
     creates: /etc/keys/kmk
 
 - name: Workaround - systemd#5522
-  command: keyctl link @u @s
+  ansible.builtin.command: keyctl link @u @s
   when: harden_ima_systemd_workaround
 
 - name: Export the kmk key into a file
-  shell: keyctl pipe `keyctl search @u user kmk` > /etc/keys/kmk
+  ansible.builtin.shell: keyctl pipe `keyctl search @u user kmk` > /etc/keys/kmk
   args:
     creates: /etc/keys/kmk
 
 - name:  Create an encrypted EVM key based on the kmk key
-  command: keyctl add encrypted evm-key "new user:kmk 64" @u
+  ansible.builtin.command: keyctl add encrypted evm-key "new user:kmk 64" @u
   args:
     creates: /etc/keys/evm-key
 
 - name: Export the evm-key user key into a file
-  shell: keyctl pipe `keyctl search @u encrypted evm-key` > /etc/keys/evm-key
+  ansible.builtin.shell: keyctl pipe `keyctl search @u encrypted evm-key` > /etc/keys/evm-key
   args:
     creates: /etc/keys/evm-key
 
@@ -45,7 +45,7 @@
       register: sysevm
 
     - name: Enable EVM
-      shell: echo 1 > /sys/kernel/security/evm
+      ansible.builtin.shell: echo 1 > /sys/kernel/security/evm
       when: sysevm['content'] | b64decode | int == 0
   when: >
     not (ansible_virtualization_type is defined and

@@ -5,25 +5,25 @@
   tasks:
 
     - name: Check if grub is present
-      stat: path=/etc/default/grub
+      ansible.builtin.stat: path=/etc/default/grub
       register: hasgrub
 
     - name: Check grub default
-      command: grep ima_ /etc/default/grub
+      ansible.builtin.command: grep ima_ /etc/default/grub
       register: grub
       changed_when: false
       failed_when: false
     - name: Validate ima enabled in grub
-      assert:
+      ansible.builtin.assert:
         that: grub.stdout|int > 0
       when: hasgrub.stat.exists
 
     - name: Get ima_policy statistics
-      stat:
+      ansible.builtin.stat:
         path: /etc/initramfs-tools/scripts/init-top/ima_policy
       register: imap
     - name: Validate ima_policy in initramfs
-      assert:
+      ansible.builtin.assert:
         that: imap.stat.exists and imap.stat.size != 0
       when: ansible_os_family == 'Debian'
 

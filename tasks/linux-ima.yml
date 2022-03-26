@@ -1,16 +1,16 @@
 ---
 
 - name: Check securityfs is present
-  stat:
+  ansible.builtin.stat:
     path: /sys/kernel/security/integrity/ima
   register: securityfs
 
 - name: Warning
-  debug: msg="Warning! securityfs not present."
+  ansible.builtin.debug: msg="Warning! securityfs not present."
   when: not securityfs.stat.exists
 
 - name: Check IMA/EVM present in dmesg
-  shell: |
+  ansible.builtin.shell: |
     set -o pipefail
     dmesg | grep -i -E '(evm|ima):' | wc -l
   args:
@@ -20,11 +20,11 @@
   register: dmesg
 
 - name: Warning2
-  debug: msg="Warning! IMA/EVM not present in dmesg."
+  ansible.builtin.debug: msg="Warning! IMA/EVM not present in dmesg."
   when: dmesg.stdout|int <= 0
 
 - name: Check if grub is present
-  stat: path=/etc/default/grub
+  ansible.builtin.stat: path=/etc/default/grub
   register: hasgrub
 
 - block:
@@ -40,7 +40,7 @@
         ima_regexp: ^GRUB_CMDLINE_LINUX={{ ima_quote + ima_before_simpler + ima_existing + ima_after }}\1{{ ima_comments }}$
         ima_replace: GRUB_CMDLINE_LINUX=\1\2\4 ima_tcb ima_hash=sha256\1\5
         ima_replace_debug: 2)\2 3)\3 4)\4 5)\5 {{ ima_replace }}
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /etc/default/grub
         regexp: "{{ ima_regexp }}"
         line: "{{ ima_replace }}"
@@ -56,13 +56,13 @@
         ) and hasgrub.stat.exists
 
 - name: Ensure initramfs-tools is present
-  package:
+  ansible.builtin.package:
     name: initramfs-tools
     state: present
   when: ansible_os_family == 'Debian'
 
 - name: Add IMA policy to initramfs
-  template:
+  ansible.builtin.template:
     src: ima_policy.j2
     dest: /etc/initramfs-tools/scripts/init-top/ima_policy
     mode: '0755'
