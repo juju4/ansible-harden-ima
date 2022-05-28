@@ -38,7 +38,8 @@
   args:
     creates: /etc/keys/evm-key
 
-- block:
+- name: Not container
+  block:
     - name: Get EVM state from securityfs
       ansible.builtin.slurp:
         src: /sys/kernel/security/evm

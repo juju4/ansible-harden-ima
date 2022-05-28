@@ -27,7 +27,8 @@
   ansible.builtin.stat: path=/etc/default/grub
   register: hasgrub
 
-- block:
+- name: Grub
+  block:
     - name: Enable IMA in grub
       vars:
         ima_quote: (["']?)                                # group 1
