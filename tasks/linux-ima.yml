@@ -21,7 +21,7 @@
 
 - name: Warning2
   ansible.builtin.debug: msg="Warning! IMA/EVM not present in dmesg."
-  when: dmesg.stdout|int <= 0
+  when: dmesg.stdout | int <= 0
 
 - name: Check if grub is present
   ansible.builtin.stat: path=/etc/default/grub
@@ -50,7 +50,7 @@
         mode: '0644'
         backup: yes
       notify:
-        - grub-mkconfig
+        - Grub-mkconfig
   when: >
     not (ansible_virtualization_type is defined and
           (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker")
@@ -68,7 +68,7 @@
     dest: /etc/initramfs-tools/scripts/init-top/ima_policy
     mode: '0755'
   notify:
-    - update-initramfs
+    - Update-initramfs
   when: ansible_os_family == 'Debian'
 
 - name: Ensure / mounted with flag iversion

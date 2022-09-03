@@ -14,7 +14,7 @@
     state: directory
     mode: '0755'
 
-- name:  Create a kernel master key to protect the EVM key
+- name: Create a kernel master key to protect the EVM key
   ansible.builtin.shell: keyctl add user kmk "$(dd if=/dev/urandom bs=1 count=32 2> /dev/null)" @u
   args:
     creates: /etc/keys/kmk
@@ -28,7 +28,7 @@
   args:
     creates: /etc/keys/kmk
 
-- name:  Create an encrypted EVM key based on the kmk key
+- name: Create an encrypted EVM key based on the kmk key
   ansible.builtin.command: keyctl add encrypted evm-key "new user:kmk 64" @u
   args:
     creates: /etc/keys/evm-key

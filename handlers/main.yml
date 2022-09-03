@@ -1,11 +1,11 @@
 ---
 
-- name: grub-mkconfig
+- name: Grub-mkconfig
   ansible.builtin.command: "{{ grub_mkconfig }} -o /boot/grub/grub.cfg"
   when: >
     not (ansible_virtualization_type is defined and
           (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker")
         )
 
-- name: update-initramfs
+- name: Update-initramfs
   ansible.builtin.command: update-initramfs -u
