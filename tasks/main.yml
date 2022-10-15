@@ -3,6 +3,8 @@
 - name: Include os family-specific variables
   ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
 
-- import_tasks: linux-ima.yml
-- import_tasks: linux-evm.yml
-# - import_tasks: linux-fsverity.yml
+- name: Import linux-ima
+  ansible.builtin.import_tasks: linux-ima.yml
+- name: Import linux-evm
+  ansible.builtin.import_tasks: linux-evm.yml
+# - ansible.builtin.import_tasks: linux-fsverity.yml

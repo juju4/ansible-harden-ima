@@ -5,7 +5,8 @@
   tasks:
 
     - name: Check if grub is present
-      ansible.builtin.stat: path=/etc/default/grub
+      ansible.builtin.stat:
+        path: /etc/default/grub
       register: hasgrub
 
     - name: Check grub default

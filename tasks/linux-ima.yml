@@ -6,7 +6,8 @@
   register: securityfs
 
 - name: Warning
-  ansible.builtin.debug: msg="Warning! securityfs not present."
+  ansible.builtin.debug:
+    msg: "Warning! securityfs not present."
   when: not securityfs.stat.exists
 
 - name: Check IMA/EVM present in dmesg
@@ -20,14 +21,20 @@
   register: dmesg
 
 - name: Warning2
-  ansible.builtin.debug: msg="Warning! IMA/EVM not present in dmesg."
+  ansible.builtin.debug:
+    msg: "Warning! IMA/EVM not present in dmesg."
   when: dmesg.stdout | int <= 0
 
 - name: Check if grub is present
-  ansible.builtin.stat: path=/etc/default/grub
+  ansible.builtin.stat:
+    path: /etc/default/grub
   register: hasgrub
 
 - name: Grub
+  when: >
+    not (ansible_virtualization_type is defined and
+          (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker")
+        ) and hasgrub.stat.exists
   block:
     - name: Enable IMA in grub
       vars:
@@ -51,10 +58,6 @@
         backup: yes
       notify:
         - Grub-mkconfig
-  when: >
-    not (ansible_virtualization_type is defined and
-          (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker")
-        ) and hasgrub.stat.exists
 
 - name: Ensure initramfs-tools is present
   ansible.builtin.package:

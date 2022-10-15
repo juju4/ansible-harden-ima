@@ -14,7 +14,7 @@
     state: directory
     mode: '0755'
 
-- name: Create a kernel master key to protect the EVM key
+- name: Create a kernel master key to protect the EVM key  # noqa no-free-form
   ansible.builtin.shell: keyctl add user kmk "$(dd if=/dev/urandom bs=1 count=32 2> /dev/null)" @u
   args:
     creates: /etc/keys/kmk
@@ -39,6 +39,11 @@
     creates: /etc/keys/evm-key
 
 - name: Not container
+  when: >
+    not (ansible_virtualization_type is defined and
+          (ansible_virtualization_type == "docker" or ansible_virtualization_type == "containerd")
+        )
+    and ansible_os_family != 'RedHat'
   block:
     - name: Get EVM state from securityfs
       ansible.builtin.slurp:
@@ -48,8 +53,3 @@
     - name: Enable EVM
       ansible.builtin.shell: echo 1 > /sys/kernel/security/evm
       when: sysevm['content'] | b64decode | int == 0
-  when: >
-    not (ansible_virtualization_type is defined and
-          (ansible_virtualization_type == "docker" or ansible_virtualization_type == "containerd")
-        )
-    and ansible_os_family != 'RedHat'
