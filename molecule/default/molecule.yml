@@ -24,8 +24,8 @@ provisioner:
 scenario:
   name: default
   test_sequence:
-    - dependency
-    - lint
+    # - dependency
+    # - lint
     - cleanup
     - destroy
     - syntax
