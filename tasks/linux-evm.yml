@@ -20,7 +20,8 @@
     creates: /etc/keys/kmk
 
 - name: Workaround - systemd#5522
-  ansible.builtin.command: keyctl link @u @s
+  ansible.builtin.command:  # noqa no-changed-when
+    cmd: keyctl link @u @s
   when: harden_ima_systemd_workaround
 
 - name: Export the kmk key into a file
@@ -51,5 +52,6 @@
       register: sysevm
 
     - name: Enable EVM
-      ansible.builtin.shell: echo 1 > /sys/kernel/security/evm
+      ansible.builtin.shell:  # noqa no-changed-when
+        cmd: echo 1 > /sys/kernel/security/evm
       when: sysevm['content'] | b64decode | int == 0

@@ -1,11 +1,13 @@
 ---
 
 - name: Grub-mkconfig
-  ansible.builtin.command: "{{ grub_mkconfig }} -o /boot/grub/grub.cfg"
+  ansible.builtin.command:  # noqa no-changed-when
+    cmd: "{{ grub_mkconfig }} -o /boot/grub/grub.cfg"
   when: >
     not (ansible_virtualization_type is defined and
           (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker")
         )
 
 - name: Update-initramfs
-  ansible.builtin.command: update-initramfs -u
+  ansible.builtin.command:  # noqa no-changed-when
+    cmd: update-initramfs -u
