@@ -32,8 +32,8 @@
 
 - name: Grub
   when: >
-    not (ansible_virtualization_type is defined and
-          (ansible_virtualization_type == "lxc" or ansible_virtualization_type == "docker")
+    not (ansible_facts['virtualization_type'] is defined and
+          (ansible_facts['virtualization_type'] == "lxc" or ansible_facts['virtualization_type'] == "docker")
         ) and hasgrub.stat.exists
   block:
     - name: Enable IMA in grub
@@ -63,7 +63,7 @@
   ansible.builtin.package:
     name: initramfs-tools
     state: present
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Add IMA policy to initramfs
   ansible.builtin.template:
@@ -72,7 +72,7 @@
     mode: '0755'
   notify:
     - Update-initramfs
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Ensure / mounted with flag iversion
   ansible.posix.mount:
@@ -83,6 +83,6 @@
     state: "{{ item.state }}"
   loop: "{{ harden_ima_fstab }}"
   when: >
-    not (ansible_virtualization_type is defined and
-          (ansible_virtualization_type == "docker" or ansible_virtualization_type == "containerd")
+    not (ansible_facts['virtualization_type'] is defined and
+          (ansible_facts['virtualization_type'] == "docker" or ansible_facts['virtualization_type'] == "containerd")
         )

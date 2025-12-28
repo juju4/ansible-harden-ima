@@ -1,7 +1,7 @@
 ---
 
 - name: Include os family-specific variables
-  ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
+  ansible.builtin.include_vars: "{{ ansible_facts['os_family'] }}.yml"
 
 - name: Import linux-ima
   ansible.builtin.import_tasks: linux-ima.yml

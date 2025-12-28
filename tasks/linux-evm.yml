@@ -41,10 +41,10 @@
 
 - name: Not container
   when: >
-    not (ansible_virtualization_type is defined and
-          (ansible_virtualization_type == "docker" or ansible_virtualization_type == "containerd")
+    not (ansible_facts['virtualization_type'] is defined and
+          (ansible_facts['virtualization_type'] == "docker" or ansible_facts['virtualization_type'] == "containerd")
         )
-    and ansible_os_family != 'RedHat'
+    and ansible_facts['os_family'] != 'RedHat'
   block:
     - name: Get EVM state from securityfs
       ansible.builtin.slurp:
