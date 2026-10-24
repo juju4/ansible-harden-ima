@@ -1,7 +1,7 @@
-[![Actions Status - Master](https://github.com/juju4/ansible-harden-ima/workflows/AnsibleCI/badge.svg)](https://github.com/juju4/ansible-harden-ima/actions?query=branch%3Amaster)
-[![Actions Status - Devel](https://github.com/juju4/ansible-harden-ima/workflows/AnsibleCI/badge.svg?branch=devel)](https://github.com/juju4/ansible-harden-ima/actions?query=branch%3Adevel)
-
 # harden-ima ansible role
+
+[![Actions Status - Main](https://github.com/juju4/ansible-harden-ima/workflows/AnsibleCI/badge.svg)](https://github.com/juju4/ansible-harden-ima/actions?query=branch%3Amain)
+[![Actions Status - Devel](https://github.com/juju4/ansible-harden-ima/workflows/AnsibleCI/badge.svg?branch=devel)](https://github.com/juju4/ansible-harden-ima/actions?query=branch%3Adevel)
 
 Configure Linux kernel's Integrity Measurement Architecture (IMA)
 
